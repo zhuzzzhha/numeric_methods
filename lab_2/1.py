@@ -1,25 +1,28 @@
-def newton_method(f, f_prime, x0, eps=1e-10):
-    """
+import sympy as sp
 
-    :param f: функция, корни которой мы ищем
-    :param f_prime: производная функции f
+def newton_method(f, x0, eps=1e-10):
+    """
+    :param f: символьное выражение функции, корни которой мы ищем
     :param x0: начальное приближение к корню
     :param eps: допустимая погрешность
     """
-    x = x0
-    fx = f(x)
+    x = sp.symbols('x')
+    f_prime = sp.diff(f, x)
+    f_prime_func = sp.lambdify(x, f_prime, 'numpy')
+    fx = f.subs(x, x0)
     while abs(fx) >= eps:
-        fx = f(x)
-        fpx = f_prime(x)
+        fx = f.subs(x, x0)
+        fpx = f_prime_func(x0)
         if fpx == 0:
             raise ValueError("Производная равна нулю. Метод Ньютона не сходится.")
-        x = x - fx / fpx
-    return x
+        x0 = x0 - fx / fpx
+    return float(x0)
 
 
- # Пример: f(x) = x^2 - 4, тогда f'(x) = 2x
-f = lambda x: x**2 - 4
-f_prime = lambda x: 2 * x
-x0 = 3
-root = newton_method(f, f_prime, x0)
+# Пример использования:
+
+x = sp.symbols('x')
+f = x ** 2 - 4
+x0 = 5
+root = newton_method(f, x0)
 print(f"Приближенный корень: {root}")
