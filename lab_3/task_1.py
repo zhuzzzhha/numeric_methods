@@ -1,3 +1,4 @@
+#метод простых итераций
 import numpy as np
 
 def simple_iteration(A, b, x_0=None, eps=1e-10):
