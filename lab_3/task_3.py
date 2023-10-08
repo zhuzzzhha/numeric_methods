@@ -1,5 +1,6 @@
 import numpy as np
 
+#метод Гаусса (единичного деления)
 def gauss_method(matrix, vector):
     n = len(matrix)
     matrix = np.hstack((matrix, vector.reshape(-1,1)))
