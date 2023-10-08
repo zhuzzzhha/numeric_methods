@@ -4,11 +4,12 @@ import numpy as np
 def gauss_method(matrix, vector):
     n = len(matrix)
     matrix = np.hstack((matrix, vector.reshape(-1,1)))
-
+    for i in range(n):
+        max_row = np.argmax(np.abs(matrix[i:, i])) + i
+        matrix[[i, max_row]] = matrix[[max_row, i]]
     # Прямой ход
     for i in range(n):
         pivot = matrix[i, i]
-
         for k in range(i + 1, n):
             factor = matrix[k, i] / pivot
             matrix[k, i:] -= factor * matrix[i, i:]
